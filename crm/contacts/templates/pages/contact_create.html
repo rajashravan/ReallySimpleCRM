@@ -84,7 +84,7 @@
                                 class="form-control form-control-alternative"
                                name="{{ form.first_name.name }}"
                                id="{{ form.first_name.id_for_label }}"
-                               {% if form.name.value != None %}value="{{ form.first_name.value|stringformat:'s' }}"{% endif %}
+                               {% if form.first_name.value != None %}value="{{ form.first_name.value|stringformat:'s' }}"{% endif %}
                                maxlength="{{ form.first_name.field.max_length }}"
                                {% if form.first_name.field.required %}required{% endif %}
                         >
@@ -98,7 +98,7 @@
                                 class="form-control form-control-alternative"
                                name="{{ form.last_name.name }}"
                                id="{{ form.last_name.id_for_label }}"
-                               {% if form.name.value != None %}value="{{ form.last_name.value|stringformat:'s' }}"{% endif %}
+                               {% if form.first_name.value != None %}value="{{ form.last_name.value|stringformat:'s' }}"{% endif %}
                                maxlength="{{ form.last_name.field.max_length }}"
                                {% if form.last_name.field.required %}required{% endif %}
                         >
@@ -121,7 +121,7 @@
                                 class="form-control form-control-alternative"
                                name="{{ form.email.name }}"
                                id="{{ form.email.id_for_label }}"
-                               {% if form.name.value != None %}value="{{ form.email.value|stringformat:'s' }}"{% endif %}
+                               {% if form.email.value != None %}value="{{ form.email.value|stringformat:'s' }}"{% endif %}
                                maxlength="{{ form.email.field.max_length }}"
                                {% if form.email.field.required %}required{% endif %}
                         >
@@ -142,7 +142,7 @@
                                 class="form-control form-control-alternative"
                                name="{{ form.address_line_1.name }}"
                                id="{{ form.address_line_1.id_for_label }}"
-                               {% if form.name.value != None %}value="{{ form.address_line_1.value|stringformat:'s' }}"{% endif %}
+                               {% if form.address_line_1.value != None %}value="{{ form.address_line_1.value|stringformat:'s' }}"{% endif %}
                                maxlength="{{ form.address_line_1.field.max_length }}"
                                {% if form.address_line_1.field.required %}required{% endif %}
                         >
@@ -157,7 +157,7 @@
                                 class="form-control form-control-alternative"
                                name="{{ form.address_line_2.name }}"
                                id="{{ form.address_line_2.id_for_label }}"
-                               {% if form.name.value != None %}value="{{ form.address_line_2.value|stringformat:'s' }}"{% endif %}
+                               {% if form.address_line_2.value != None %}value="{{ form.address_line_2.value|stringformat:'s' }}"{% endif %}
                                maxlength="{{ form.address_line_2.field.max_length }}"
                                {% if form.address_line_2.field.required %}required{% endif %}
                         >
@@ -172,7 +172,7 @@
                                class="form-control form-control-alternative"
                                name="{{ form.city.name }}"
                                id="{{ form.city.id_for_label }}"
-                               {% if form.name.value != None %}value="{{ form.city.value|stringformat:'s' }}"{% endif %}
+                               {% if form.city.value != None %}value="{{ form.city.value|stringformat:'s' }}"{% endif %}
                                maxlength="{{ form.city.field.max_length }}"
                                {% if form.city.field.required %}required{% endif %}
                         >
@@ -185,7 +185,7 @@
                                class="form-control form-control-alternative"
                                name="{{ form.state.name }}"
                                id="{{ form.state.id_for_label }}"
-                               {% if form.name.value != None %}value="{{ form.state.value|stringformat:'s' }}"{% endif %}
+                               {% if form.state.value != None %}value="{{ form.state.value|stringformat:'s' }}"{% endif %}
                                maxlength="{{ form.state.field.max_length }}"
                                {% if form.state.field.required %}required{% endif %}
                         >
@@ -198,7 +198,7 @@
                                class="form-control form-control-alternative"
                                name="{{ form.zipcode.name }}"
                                id="{{ form.zipcode.id_for_label }}"
-                               {% if form.name.value != None %}value="{{ form.zipcode.value|stringformat:'s' }}"{% endif %}
+                               {% if form.zipcode.value != None %}value="{{ form.zipcode.value|stringformat:'s' }}"{% endif %}
                                maxlength="{{ form.zipcode.field.max_length }}"
                                {% if form.zipcode.field.required %}required{% endif %}
                         >
