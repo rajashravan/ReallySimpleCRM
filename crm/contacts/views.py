@@ -12,4 +12,4 @@ def index(request):
 
 def detail(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id)
-    return render(request, 'contacts/detail.html', {'contact': contact})
+    return render(request, 'pages/profile.html', {'contact': contact})
