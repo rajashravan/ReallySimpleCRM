@@ -18,4 +18,4 @@ class Contact(models.Model):
     # profile_picture = ImageField(upload_to=get_image_path, blank=True, null=True)
 
     def __str__(self):
-        return self.first_name
+        return self.first_name + " " + self.last_name
