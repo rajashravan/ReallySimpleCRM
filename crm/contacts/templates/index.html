@@ -112,6 +112,7 @@
                   <h3 class="mb-0">Contacts</h3>
                 </div>
                 <div class="col text-right">
+                  <a href="{% url 'contacts:index' %}?export=True" class="btn btn-sm btn-primary">Export Contacts</a>
                   <a href="{% url 'contacts:create' %}" class="btn btn-sm btn-primary">Create Contact</a>
                 </div>
               </div>
@@ -166,6 +167,16 @@
           </div>
         </div>
       </div>
+
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="myfile">
+        <button type="submit">Upload</button>
+      </form>
+
+      {% if uploaded_file_url %}
+        <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+      {% endif %}
 
     </div>
 

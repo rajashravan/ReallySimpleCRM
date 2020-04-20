@@ -4,13 +4,110 @@ from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
+from openpyxl import Workbook, load_workbook
+
 from .models import Contact
 from .forms import ContactForm
 
+# from django.conf import settings
+# from django.core.files.storage import FileSystemStorage
+#
+# def simple_upload(request):
+#     print("HELLO")
+#     if request.method == 'POST' and request.FILES['myfile']:
+#         myfile = request.FILES['myfile']
+#         fs = FileSystemStorage()
+#         filename = fs.save(myfile.name, myfile)
+#         uploaded_file_url = fs.url(filename)
+#         return render(request, 'core/simple_upload.html', {
+#             'uploaded_file_url': uploaded_file_url
+#         })
+#
+#     return render(request, 'core/simple_upload.html')
+
+def import_contacts(request):
+    workbook = load_workbook(filename="contacts.xlsx")
+    sheet = workbook.active
+
+    data = []
+
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        contact = Contact(first_name=row[0], last_name=row[1])
+        if row[2]: contact.email = row[2]
+        if row[3]: contact.address_line_1 = row[3]
+        if row[4]: contact.address_line_2 = row[4]
+        if row[5]: contact.city = row[5]
+        if row[6]: contact.state = row[6]
+        if row[7]: contact.zipcode = row[7]
+        contact.user = request.user
+        contact.save()
+
+def export_contacts():
+    """
+    Downloads all contacts as an Excel file with a single worksheet
+    """
+    contact_queryset = Contact.objects.all()
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=contacts.xlsx'
+    workbook = Workbook()
+
+    # Get active worksheet/tab
+    worksheet = workbook.active
+    worksheet.title = 'Contacts'
+
+    # Define the titles for columns
+    columns = [
+        'First Name',
+        'Last Name',
+        'Email',
+        'Address Line 1',
+        'Address Line 2',
+        'City',
+        'State',
+        'Zipcode',
+    ]
+    row_num = 1
+
+    # Assign the titles for each cell of the header
+    for col_num, column_title in enumerate(columns, 1):
+        cell = worksheet.cell(row=row_num, column=col_num)
+        cell.value = column_title
+
+    # Iterate through all movies
+    for contact in contact_queryset:
+        row_num += 1
+
+        # Define the data for each cell in the row
+        row = [
+            contact.first_name,
+            contact.last_name,
+            contact.email,
+            contact.address_line_1,
+            contact.address_line_2,
+            contact.city,
+            contact.state,
+            contact.zipcode
+        ]
+
+        # Assign the data for each cell of the row
+        for col_num, cell_value in enumerate(row, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = cell_value
+
+    workbook.save(response)
+
+    return response
+
+
 @login_required(login_url="/login/")
 def index(request):
+    import_contacts(request)
     contact_list = Contact.objects.order_by('first_name')
     context = {'contact_list': contact_list}
+    export = request.GET.get('export', False)
+    if export:
+        return export_contacts()
     return render(request, 'index.html', context)
 
 @login_required(login_url="/login/")
@@ -18,7 +115,7 @@ def detail(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id)
     return render(request, 'pages/profile.html', {'contact': contact})
 
-
+@login_required(login_url="/login/")
 def contact_create_view(request):
     form = ContactForm(request.POST or None)
     if form.is_valid():
