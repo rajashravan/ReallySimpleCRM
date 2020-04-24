@@ -97,8 +97,8 @@ def index(request):
     if request.method == 'POST' and 'document' in request.FILES:
         uploaded_file = request.FILES['document']
         fs = FileSystemStorage()
-        fs.save(uploaded_file.name, uploaded_file)
-        import_contacts(request, settings.MEDIA_URL + uploaded_file.name)
+        name = fs.save(uploaded_file.name, uploaded_file)
+        import_contacts(request, fs.url(name))
     contact_list = Contact.objects.order_by('first_name')
     context = {'contact_list': contact_list}
     export = request.GET.get('export', False)
