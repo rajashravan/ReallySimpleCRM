@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+from django.db.models.functions import Lower
+
 import os
 
 from openpyxl import Workbook, load_workbook
@@ -99,7 +101,7 @@ def index(request):
         fs = FileSystemStorage()
         name = fs.save(uploaded_file.name, uploaded_file)
         import_contacts(request, fs.url(name)[1:])
-    contact_list = Contact.objects.order_by('first_name')
+    contact_list = Contact.objects.order_by(Lower('first_name'))
     context = {'contact_list': contact_list}
     export = request.GET.get('export', False)
     if export:
@@ -113,7 +115,7 @@ def detail(request, contact_id):
 
 @login_required(login_url="/login/")
 def contact_create_view(request):
-    form = ContactForm(request.POST or None)
+    form = ContactForm(request.POST or None, request.FILES)
     if form.is_valid():
         contact = form.save(commit=False)
         contact.user = request.user
@@ -125,7 +127,7 @@ def contact_create_view(request):
 def contact_edit_view(request, contact_id):
     contact = get_object_or_404(Contact, id=contact_id)
     if request.method == "POST":
-        form = ContactForm(request.POST, instance=contact)
+        form = ContactForm(request.POST, request.FILES, instance=contact)
         if form.is_valid():
             contact = form.save(commit=False)
             contact.user = request.user

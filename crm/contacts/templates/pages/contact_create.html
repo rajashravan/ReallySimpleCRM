@@ -20,16 +20,14 @@
     </div>
 
     <div class="container-fluid mt--7">
-
+          <form method="post" enctype="multipart/form-data">
       <div class="row">
-        <!-- <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
           <div class="card card-profile shadow">
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
-                  <a href="#">
-                    <img src="/static/assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-                  </a>
+                    <img src="/static/assets/img/default-profile.png" class="rounded-circle">
                 </div>
               </div>
             </div>
@@ -43,23 +41,22 @@
                 </div>
               </div>
               <div class="text-center">
-                <div class="pl-lg-4">
-                  <div class="form-group">
-                    <label>Send Postcard</label>
-                    <textarea rows="4" class="form-control form-control-alternative" placeholder="I love InvestNext!"></textarea>
-                  </div>
-                </div>
-                <div class="text-center">
-                  <a href="#!" class="btn btn-sm btn-primary">Send a Postcard</a>
-                  <br><br>
-                  <h6 class="heading-small text-muted mb-4">(Make sure to save your changes first)</h6>
+                <div class="col text-center">
+                    {% csrf_token %}
+                    <!-- <input type="file" class="btn-sm" name="document"> -->
+
+                    <input type="file"
+                           class="btn-sm"
+                           name="{{ form.profile_picture.name }}"
+                           id="{{ form.profile_picture.id_for_label }}"
+                           {% if form.profile_picture.field.required %}required{% endif %}
+                    >
                 </div>
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="col-xl-8 order-xl-1">
-          <form method="post">
             {% csrf_token %}
           <div class="card bg-secondary shadow">
             <div class="card-header bg-white border-0">
@@ -97,7 +94,7 @@
                                 class="form-control form-control-alternative"
                                name="{{ form.last_name.name }}"
                                id="{{ form.last_name.id_for_label }}"
-                               {% if form.first_name.value != None %}value="{{ form.last_name.value|stringformat:'s' }}"{% endif %}
+                               {% if form.last_name.value != None %}value="{{ form.last_name.value|stringformat:'s' }}"{% endif %}
                                maxlength="{{ form.last_name.field.max_length }}"
                                {% if form.last_name.field.required %}required{% endif %}
                         >
