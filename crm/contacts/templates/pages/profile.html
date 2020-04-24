@@ -29,9 +29,11 @@
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
-                  <a href="#">
-                    <img src="/static/assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-                  </a>
+                  {% if contact.profile_picture != "" %}
+                  <img src="{{ contact.profile_picture.url }}" id="contact-image" class="rounded-circle" style="max-height:200px">
+                  {% else %}
+                  <!-- <img src="/static/assets/img/theme/team-4-800x800.jpg" class="rounded-circle"> -->
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -69,8 +71,8 @@
                 </div>
                 <div class="text-center">
                   <a href="#!" class="btn btn-sm btn-primary">Send a Postcard</a>
-                  <br><br>
-                  <h6 class="heading-small text-muted mb-4">(Make sure to save your changes first)</h6>
+                  <!-- <br><br>
+                  <h6 class="heading-small text-muted mb-4">(Make sure to save your changes first)</h6> -->
                   <!-- <h6 class="heading-small text-muted mb-4">success text goes here</h6> -->
                 </div>
                 <!-- <h3>
@@ -181,6 +183,7 @@
                         <input disabled type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Zipcode" value="{{ contact.zipcode }}">
                       </div>
                     </div>
+
                   </div>
                 </div>
                 <hr class="my-4" />

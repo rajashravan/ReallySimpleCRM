@@ -1,0 +1,5 @@
+{{ contact.first_name }}
+{% if contact.profile_picture != None %}
+<img src="{{ contact.profile_picture.url }}" id="contact-image">
+{{ contact.profile_picture.url }}
+{% endif %}

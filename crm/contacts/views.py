@@ -98,7 +98,7 @@ def index(request):
         uploaded_file = request.FILES['document']
         fs = FileSystemStorage()
         name = fs.save(uploaded_file.name, uploaded_file)
-        import_contacts(request, fs.url(name))
+        import_contacts(request, fs.url(name)[1:])
     contact_list = Contact.objects.order_by('first_name')
     context = {'contact_list': contact_list}
     export = request.GET.get('export', False)
