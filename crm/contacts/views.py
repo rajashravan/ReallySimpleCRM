@@ -3,30 +3,18 @@ from django.template import loader
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+import os
 
 from openpyxl import Workbook, load_workbook
 
 from .models import Contact
 from .forms import ContactForm
 
-# from django.conf import settings
-# from django.core.files.storage import FileSystemStorage
-#
-# def simple_upload(request):
-#     print("HELLO")
-#     if request.method == 'POST' and request.FILES['myfile']:
-#         myfile = request.FILES['myfile']
-#         fs = FileSystemStorage()
-#         filename = fs.save(myfile.name, myfile)
-#         uploaded_file_url = fs.url(filename)
-#         return render(request, 'core/simple_upload.html', {
-#             'uploaded_file_url': uploaded_file_url
-#         })
-#
-#     return render(request, 'core/simple_upload.html')
-
-def import_contacts(request):
-    workbook = load_workbook(filename="contacts.xlsx")
+@login_required(login_url="/login/")
+def import_contacts(request, file_name):
+    workbook = load_workbook(filename=file_name)
     sheet = workbook.active
 
     data = []
@@ -42,7 +30,11 @@ def import_contacts(request):
         contact.user = request.user
         contact.save()
 
-def export_contacts():
+    if os.path.isfile(file_name):
+       os.remove(file_name)
+
+@login_required(login_url="/login/")
+def export_contacts(request):
     """
     Downloads all contacts as an Excel file with a single worksheet
     """
@@ -102,12 +94,16 @@ def export_contacts():
 
 @login_required(login_url="/login/")
 def index(request):
-    import_contacts(request)
+    if request.method == 'POST' and 'document' in request.FILES:
+        uploaded_file = request.FILES['document']
+        fs = FileSystemStorage()
+        fs.save(uploaded_file.name, uploaded_file)
+        import_contacts(request, settings.MEDIA_URL + uploaded_file.name)
     contact_list = Contact.objects.order_by('first_name')
     context = {'contact_list': contact_list}
     export = request.GET.get('export', False)
     if export:
-        return export_contacts()
+        return export_contacts(request)
     return render(request, 'index.html', context)
 
 @login_required(login_url="/login/")

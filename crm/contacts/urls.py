@@ -1,6 +1,9 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
+
 
 app_name = 'contacts'
 urlpatterns = [
@@ -9,5 +12,8 @@ urlpatterns = [
     # ex: /contacts/5/
     path('<int:contact_id>/', views.detail, name='detail'),
     path('<int:contact_id>/edit', views.contact_edit_view, name='edit'),
-    path('create', views.contact_create_view, name='create')
+    path('create', views.contact_create_view, name='create'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
