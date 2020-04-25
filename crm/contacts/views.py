@@ -22,12 +22,14 @@ def index(request):
         fs = FileSystemStorage()
         name = fs.save(uploaded_file.name, uploaded_file)
         import_contacts(fs.url(name)[1:], request.user)
-    contact_list = Contact.objects.filter(user=request.user).order_by(Lower('first_name'), Lower('last_name'))
+    contact_list = Contact.objects.filter(user=request.user).order_by(
+        Lower('first_name'), Lower('last_name'))
     context = {'contact_list': contact_list}
     export = request.GET.get('export', False)
     if export:
         return export_contacts(request.user)
     return render(request, 'index.html', context)
+
 
 @login_required(login_url="/login/")
 def detail(request, contact_id):
@@ -40,6 +42,7 @@ def detail(request, contact_id):
         return render(request, 'pages/profile.html', {'contact': contact, 'postcard_success': True})
     return render(request, 'pages/profile.html', {'contact': contact})
 
+
 @login_required(login_url="/login/")
 def contact_create_view(request):
     form = ContactForm(request.POST or None, request.FILES)
@@ -50,6 +53,7 @@ def contact_create_view(request):
         return HttpResponseRedirect(reverse('contacts:detail', args=(contact.id,)))
 
     return render(request, 'pages/contact_create.html', {'form': form})
+
 
 def contact_edit_view(request, contact_id):
     contact = get_object_or_404(Contact, id=contact_id)
@@ -62,7 +66,8 @@ def contact_edit_view(request, contact_id):
             return HttpResponseRedirect(reverse('contacts:detail', args=(contact.id,)))
     else:
         form = ContactForm(instance=contact)
-    return render(request, 'pages/contact_create.html', {'form': form, 'contact':contact})
+    return render(request, 'pages/contact_create.html', {'form': form, 'contact': contact})
+
 
 @login_required(login_url="/login/")
 def postcard_view(request, contact_id):

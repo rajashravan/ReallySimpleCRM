@@ -12,4 +12,4 @@ urlpatterns = [
     path('<int:contact_id>/edit', views.contact_edit_view, name='edit'),
     path('create', views.contact_create_view, name='create'),
     path('<int:contact_id>/postcard', views.postcard_view, name='create')
-]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

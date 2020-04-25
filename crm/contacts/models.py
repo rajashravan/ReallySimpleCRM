@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.core.validators import MaxValueValidator
 
+
 class Contact(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -14,7 +15,8 @@ class Contact(models.Model):
     address_line_2 = models.CharField(max_length=50, blank=True)
     city = models.CharField(max_length=50, blank=True)
     state = models.CharField(max_length=50, blank=True)
-    zipcode = models.PositiveIntegerField(null=True, blank=True, validators=[MaxValueValidator(999999)])
+    zipcode = models.PositiveIntegerField(
+        null=True, blank=True, validators=[MaxValueValidator(999999)])
     profile_picture = models.ImageField(blank=True, null=True)
 
     def __str__(self):
