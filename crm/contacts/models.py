@@ -6,7 +6,7 @@ class Contact(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-    ) # note that this might be hard to set from the shell (should be automatic elsewhere)
+    )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.CharField(max_length=50, blank=True)

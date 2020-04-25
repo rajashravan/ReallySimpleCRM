@@ -8,6 +8,7 @@ from django.conf import settings
 from django.db.models.functions import Lower
 
 import os
+import urllib.parse
 
 from openpyxl import Workbook, load_workbook
 
@@ -17,6 +18,7 @@ from .postcards import send_postcard
 
 @login_required(login_url="/login/")
 def import_contacts(request, file_name):
+    file_name = urllib.parse.unquote(file_name)
     workbook = load_workbook(filename=file_name)
     sheet = workbook.active
 
@@ -41,7 +43,7 @@ def export_contacts(request):
     """
     Downloads all contacts as an Excel file with a single worksheet
     """
-    contact_queryset = Contact.objects.all()
+    contact_queryset = Contact.objects.filter(user=request.user).order_by(Lower('first_name'), Lower('last_name'))
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=contacts.xlsx'
@@ -51,7 +53,6 @@ def export_contacts(request):
     worksheet = workbook.active
     worksheet.title = 'Contacts'
 
-    # Define the titles for columns
     columns = [
         'First Name',
         'Last Name',
@@ -64,16 +65,13 @@ def export_contacts(request):
     ]
     row_num = 1
 
-    # Assign the titles for each cell of the header
     for col_num, column_title in enumerate(columns, 1):
         cell = worksheet.cell(row=row_num, column=col_num)
         cell.value = column_title
 
-    # Iterate through all movies
     for contact in contact_queryset:
         row_num += 1
 
-        # Define the data for each cell in the row
         row = [
             contact.first_name,
             contact.last_name,
@@ -85,7 +83,6 @@ def export_contacts(request):
             contact.zipcode
         ]
 
-        # Assign the data for each cell of the row
         for col_num, cell_value in enumerate(row, 1):
             cell = worksheet.cell(row=row_num, column=col_num)
             cell.value = cell_value
@@ -98,12 +95,11 @@ def export_contacts(request):
 @login_required(login_url="/login/")
 def index(request):
     if request.method == 'POST' and 'document' in request.FILES:
-        print('import')
         uploaded_file = request.FILES['document']
         fs = FileSystemStorage()
         name = fs.save(uploaded_file.name, uploaded_file)
         import_contacts(request, fs.url(name)[1:])
-    contact_list = Contact.objects.order_by(Lower('first_name'), Lower('last_name'))
+    contact_list = Contact.objects.filter(user=request.user).order_by(Lower('first_name'), Lower('last_name'))
     context = {'contact_list': contact_list}
     export = request.GET.get('export', False)
     if export:
@@ -116,7 +112,7 @@ def detail(request, contact_id):
     if request.method == 'POST':
         try:
             send_postcard(contact, request.POST['postcard_text'])
-        except ValueError as e:
+        except Exception as e:
             return render(request, 'pages/profile.html', {'contact': contact, 'postcard_error': str(e)})
         return render(request, 'pages/profile.html', {'contact': contact, 'postcard_success': True})
     return render(request, 'pages/profile.html', {'contact': contact})
