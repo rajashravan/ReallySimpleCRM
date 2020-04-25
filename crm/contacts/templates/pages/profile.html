@@ -63,18 +63,34 @@
                 </div>
               </div>
               <div class="text-center">
+                <form method='POST' enctype="multipart/form-data">
+                  {% csrf_token %}
                 <div class="pl-lg-4">
                   <div class="form-group">
                     <label>Send Postcard</label>
-                    <textarea rows="4" class="form-control form-control-alternative" placeholder="I love InvestNext!"></textarea>
+                    {% if postcard_error %}
+                    <div class="alert alert-primary" role="alert">
+                      {{ postcard_error }}
+                    </div>
+                    {% endif %}
+                    {% if postcard_success %}
+                    <div class="alert alert-success" role="alert">
+                      Postcard sent!
+                    </div>
+                    {% endif %}
+                    <textarea rows="4" name="postcard_text" class="form-control form-control-alternative" placeholder="I love InvestNext!"></textarea>
                   </div>
                 </div>
                 <div class="text-center">
-                  <a href="#!" class="btn btn-sm btn-primary">Send a Postcard</a>
+                  <button type="submit" class="btn btn-sm btn-primary">Send a Postcard</button>
+                  <br>
+
+
                   <!-- <br><br>
                   <h6 class="heading-small text-muted mb-4">(Make sure to save your changes first)</h6> -->
                   <!-- <h6 class="heading-small text-muted mb-4">success text goes here</h6> -->
                 </div>
+                </form>
                 <!-- <h3>
                   {{ contact }}
                 </h3>

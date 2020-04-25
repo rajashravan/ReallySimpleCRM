@@ -13,6 +13,7 @@ from openpyxl import Workbook, load_workbook
 
 from .models import Contact
 from .forms import ContactForm
+from .postcards import send_postcard
 
 @login_required(login_url="/login/")
 def import_contacts(request, file_name):
@@ -97,11 +98,12 @@ def export_contacts(request):
 @login_required(login_url="/login/")
 def index(request):
     if request.method == 'POST' and 'document' in request.FILES:
+        print('import')
         uploaded_file = request.FILES['document']
         fs = FileSystemStorage()
         name = fs.save(uploaded_file.name, uploaded_file)
         import_contacts(request, fs.url(name)[1:])
-    contact_list = Contact.objects.order_by(Lower('first_name'))
+    contact_list = Contact.objects.order_by(Lower('first_name'), Lower('last_name'))
     context = {'contact_list': contact_list}
     export = request.GET.get('export', False)
     if export:
@@ -110,7 +112,13 @@ def index(request):
 
 @login_required(login_url="/login/")
 def detail(request, contact_id):
-    contact = get_object_or_404(Contact, pk=contact_id)
+    contact = get_object_or_404(Contact, id=contact_id)
+    if request.method == 'POST':
+        try:
+            send_postcard(contact, request.POST['postcard_text'])
+        except ValueError as e:
+            return render(request, 'pages/profile.html', {'contact': contact, 'postcard_error': str(e)})
+        return render(request, 'pages/profile.html', {'contact': contact, 'postcard_success': True})
     return render(request, 'pages/profile.html', {'contact': contact})
 
 @login_required(login_url="/login/")
@@ -136,3 +144,9 @@ def contact_edit_view(request, contact_id):
     else:
         form = ContactForm(instance=contact)
     return render(request, 'pages/contact_create.html', {'form': form})
+
+@login_required(login_url="/login/")
+def postcard_view(request, contact_id):
+    contact = get_object_or_404(Contact, id=contact_id)
+    send_postcard(contact)
+    return HttpResponseRedirect(reverse('contacts:detail', args=(contact.id,)))
