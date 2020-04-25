@@ -14,7 +14,6 @@ def send_postcard(contact, postcard_text):
 
     to_address = lob.Address.create(
       name = contact.first_name + " " + contact.last_name,
-      description = postcard_text,
       address_line1 = contact.address_line_1,
       address_line2 = contact.address_line_2,
       address_city = contact.city,
@@ -25,10 +24,8 @@ def send_postcard(contact, postcard_text):
 
     card = lob.Postcard.create(
       to_address = to_address,
-      # front = '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
       back = '<html style="padding: 1in; font-size: 20;">{{postcard_text}}</html>',
       front = 'https://lob.com/postcardfront.pdf',
-      # back = 'https://lob.com/postcardback.pdf'
       merge_variables = {
         'postcard_text': postcard_text
       },

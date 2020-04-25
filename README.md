@@ -23,7 +23,7 @@ python3 crm/manage.py runserver
 ## Misc
 Front-end design was forked from [Django Dashboard Argon](https://github.com/app-generator/django-dashboard-argon).
 
-Back-end design was done soley by myself, using:
+Tools:
 * python3
 * django
 * openpyxl
