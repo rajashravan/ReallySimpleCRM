@@ -23,14 +23,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('polls/', include('polls.urls')),
     path('contacts/', include('contacts.urls')),
-    path("", include("authentication.urls")),  # add this
-    # The home page
+    path("", include("authentication.urls")),
     path('', views.index, name='home'),
-    # path("logout/", LogoutView.as_view(), name="logout")
-    # path('accounts/', include('django.contrib.auth.urls')),
-
 ]
 
 if settings.DEBUG:

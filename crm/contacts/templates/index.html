@@ -7,179 +7,92 @@
 
 {% block content %}
 
-    <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-      <div class="container-fluid">
-        <div class="header-body">
-          <!-- Card stats -->
-          <!-- <div class="row">
-            <div class="col-xl-3 col-lg-6">
-              <div class="card card-stats mb-4 mb-xl-0">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
-                      <span class="h2 font-weight-bold mb-0">350,897</span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                        <i class="fas fa-chart-bar"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6">
-              <div class="card card-stats mb-4 mb-xl-0">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
-                      <span class="h2 font-weight-bold mb-0">2,356</span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                        <i class="fas fa-chart-pie"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
-                    <span class="text-nowrap">Since last week</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6">
-              <div class="card card-stats mb-4 mb-xl-0">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
-                      <span class="h2 font-weight-bold mb-0">924</span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                        <i class="fas fa-users"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                    <span class="text-nowrap">Since yesterday</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6">
-              <div class="card card-stats mb-4 mb-xl-0">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
-                      <span class="h2 font-weight-bold mb-0">49,65%</span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                        <i class="fas fa-percent"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div> -->
-        </div>
-      </div>
+<!-- Header -->
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
     </div>
+  </div>
+</div>
 
-    <div class="container-fluid mt--7">
-      <div class="row mt-5">
-        <div class="col-xl-11 mb-5 mb-xl-0">
-          <div class="card shadow">
-            <div class="card-header border-0">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h3 class="mb-0">Contacts</h3>
-                </div>
-                <div class="col text-center">
-                  <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="file" class="btn-sm" name="document">
-                    <button type="submit" class="btn btn-sm btn-primary">Import Contacts</button>
-                  </form>
-                </div>
-                <div class="col text-right">
-                  <a href="{% url 'contacts:index' %}?export=True" class="btn btn-sm btn-primary">Export Contacts</a>
-                  <a href="{% url 'contacts:create' %}" class="btn btn-sm btn-primary">Create Contact</a>
-                </div>
-              </div>
+<div class="container-fluid mt--7">
+  <div class="row mt-5">
+    <div class="col-xl-11 mb-5 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Contacts</h3>
             </div>
-            <div class="table-responsive">
-              <!-- Projects table -->
-              <table class="table align-items-center table-flush">
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Address Line 1</th>
-                    <th scope="col">Address Line 2</th>
-                    <th scope="col">City</th>
-                    <th scope="col">State</th>
-                    <th scope="col">Zipcode</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for contact in contact_list %}
-                  <tr>
-                    <th scope="row">
-                      {{  contact  }}
-                    </th>
-                    <td>
-                      {{  contact.email  }}
-                    </td>
-                    <td>
-                      {{  contact.address_line_1  }}
-                    </td>
-                    <td>
-                      {{  contact.address_line_2  }}
-                    </td>
-                    <td>
-                      {{  contact.city  }}
-                    </td>
-                    <td>
-                      {{  contact.state  }}
-                    </td>
-                    <td>
-                      {{  contact.zipcode  }}
-                    </td>
-                    <td>
-                      <a href="{% url 'contacts:detail' contact.id %}" class="btn btn-sm btn-primary">View / Edit</a>
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+            <div class="col text-center">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" class="btn-sm" name="document">
+                <button type="submit" class="btn btn-sm btn-primary">Import Contacts</button>
+              </form>
+            </div>
+            <div class="col text-right">
+              <a href="{% url 'contacts:index' %}?export=True" class="btn btn-sm btn-primary">Export Contacts</a>
+              <a href="{% url 'contacts:create' %}" class="btn btn-sm btn-primary">Create Contact</a>
             </div>
           </div>
         </div>
+        <div class="table-responsive">
+          <!-- Projects table -->
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address Line 1</th>
+                <th scope="col">Address Line 2</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                <th scope="col">Zipcode</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for contact in contact_list %}
+              <tr>
+                <th scope="row">
+                  {{ contact  }}
+                </th>
+                <td>
+                  {{ contact.email  }}
+                </td>
+                <td>
+                  {{ contact.address_line_1  }}
+                </td>
+                <td>
+                  {{ contact.address_line_2  }}
+                </td>
+                <td>
+                  {{ contact.city  }}
+                </td>
+                <td>
+                  {{ contact.state  }}
+                </td>
+                <td>
+                  {{ contact.zipcode  }}
+                </td>
+                <td>
+                  <a href="{% url 'contacts:detail' contact.id %}" class="btn btn-sm btn-primary">View / Edit</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      {% if uploaded_file_url %}
-        <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-      {% endif %}
-
     </div>
+  </div>
+
+  {% if uploaded_file_url %}
+  <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+  {% endif %}
+
+</div>
 
 {% endblock content %}
 

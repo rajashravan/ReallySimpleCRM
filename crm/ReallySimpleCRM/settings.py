@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'contacts.apps.ContactsConfig',
-    'polls.apps.PollsConfig',
     'authentication.apps.AuthenticationConfig',
     'django.contrib.admin',
     'django.contrib.auth',

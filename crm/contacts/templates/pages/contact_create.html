@@ -4,220 +4,149 @@
 
 {% block content %}
 
-    <!-- Header -->
-    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-         style="min-height: 50px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
-      <!-- Mask -->
-      <span class="mask bg-gradient-default opacity-8"></span>
-      <!-- Header container -->
-      <div class="container-fluid d-flex align-items-center">
-        <div class="row">
-          <div class="col-lg-7 col-md-10">
-            <h1 class="display-2 text-white">{{ contact }}</h1>
-          </div>
-        </div>
+<!-- Header -->
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 50px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-default opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+        <h1 class="display-2 text-white">{{ contact }}</h1>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="container-fluid mt--7">
-          <form method="post" enctype="multipart/form-data">
-      <div class="row">
-        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
-          <div class="card card-profile shadow">
-            <div class="row justify-content-center">
-              <div class="col-lg-3 order-lg-2">
-                <div class="card-profile-image">
-                    <img src="/static/assets/img/default-profile.png" class="rounded-circle">
+<div class="container-fluid mt--7">
+  <form method="post" enctype="multipart/form-data">
+    <div class="row">
+      <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+          <div class="row justify-content-center">
+            <div class="col-lg-3 order-lg-2">
+              <div class="card-profile-image">
+                {% if contact.profile_picture != "" %}
+                <img src="{{ contact.profile_picture.url }}" id="contact-image" class="rounded-circle" style="max-height:200px">
+                {% else %}
+                <img src="/static/assets/img/default-profile.png" class="rounded-circle">
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          </div>
+          <div class="card-body pt-0 pt-md-4">
+            <div class="row">
+              <div class="col">
+                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                 </div>
               </div>
             </div>
-            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+            <div class="text-center">
+              <div class="col text-center">
+                {% csrf_token %}
+                <input type="file" class="btn-sm" name="{{ form.profile_picture.name }}" id="{{ form.profile_picture.id_for_label }}" {% if form.profile_picture.field.required %}required{% endif %}>
+              </div>
             </div>
-            <div class="card-body pt-0 pt-md-4">
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-8 order-xl-1">
+        {% csrf_token %}
+        <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Contact Details</h3>
+              </div>
+              <div class="col-4 text-right">
+                <button type="submit" class="btn btn-sm btn-primary">Save</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <h6 class="heading-small text-muted mb-4">Contact information</h6>
+            <div class="pl-lg-4">
               <div class="row">
-                <div class="col">
-                  <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                  </div>
-                </div>
-              </div>
-              <div class="text-center">
-                <div class="col text-center">
-                    {% csrf_token %}
-                    <!-- <input type="file" class="btn-sm" name="document"> -->
-
-                    <input type="file"
-                           class="btn-sm"
-                           name="{{ form.profile_picture.name }}"
-                           id="{{ form.profile_picture.id_for_label }}"
-                           {% if form.profile_picture.field.required %}required{% endif %}
-                    >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-8 order-xl-1">
-            {% csrf_token %}
-          <div class="card bg-secondary shadow">
-            <div class="card-header bg-white border-0">
-              <div class="row align-items-center">
-                <div class="col-8">
-                  <h3 class="mb-0">Contact Details</h3>
-                </div>
-                <div class="col-4 text-right">
-                  <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-                <h6 class="heading-small text-muted mb-4">Contact information</h6>
-                <div class="pl-lg-4">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-first-name">First name</label>
-                        <input type="text"
-                                class="form-control form-control-alternative"
-                               name="{{ form.first_name.name }}"
-                               id="{{ form.first_name.id_for_label }}"
-                               {% if form.first_name.value != None %}value="{{ form.first_name.value|stringformat:'s' }}"{% endif %}
-                               maxlength="{{ form.first_name.field.max_length }}"
-                               {% if form.first_name.field.required %}required{% endif %}
-                        >
-
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-last-name">Last name</label>
-                        <input type="text"
-                                class="form-control form-control-alternative"
-                               name="{{ form.last_name.name }}"
-                               id="{{ form.last_name.id_for_label }}"
-                               {% if form.last_name.value != None %}value="{{ form.last_name.value|stringformat:'s' }}"{% endif %}
-                               maxlength="{{ form.last_name.field.max_length }}"
-                               {% if form.last_name.field.required %}required{% endif %}
-                        >
-
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <!-- <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-username">Username</label>
-                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username"
-                               value="{{ request.user.username }}">
-                      </div>
-                    </div> -->
-                    <div class="col-lg-12">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-email">Email address</label>
-                        <input type="email"
-                                class="form-control form-control-alternative"
-                               name="{{ form.email.name }}"
-                               id="{{ form.email.id_for_label }}"
-                               {% if form.email.value != None %}value="{{ form.email.value|stringformat:'s' }}"{% endif %}
-                               maxlength="{{ form.email.field.max_length }}"
-                               {% if form.email.field.required %}required{% endif %}
-                        >
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-                <hr class="my-4" />
-                <!-- Address -->
-                <h6 class="heading-small text-muted mb-4">Address information</h6>
-                <div class="pl-lg-4">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-address-1">Address Line 1</label>
-                        <input type="text"
-                                class="form-control form-control-alternative"
-                               name="{{ form.address_line_1.name }}"
-                               id="{{ form.address_line_1.id_for_label }}"
-                               {% if form.address_line_1.value != None %}value="{{ form.address_line_1.value|stringformat:'s' }}"{% endif %}
-                               maxlength="{{ form.address_line_1.field.max_length }}"
-                               {% if form.address_line_1.field.required %}required{% endif %}
-                        >
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-address-2">Address Line 2</label>
-                        <input type="text"
-                                class="form-control form-control-alternative"
-                               name="{{ form.address_line_2.name }}"
-                               id="{{ form.address_line_2.id_for_label }}"
-                               {% if form.address_line_2.value != None %}value="{{ form.address_line_2.value|stringformat:'s' }}"{% endif %}
-                               maxlength="{{ form.address_line_2.field.max_length }}"
-                               {% if form.address_line_2.field.required %}required{% endif %}
-                        >
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-city">City</label>
-                        <input type="text"
-                               class="form-control form-control-alternative"
-                               name="{{ form.city.name }}"
-                               id="{{ form.city.id_for_label }}"
-                               {% if form.city.value != None %}value="{{ form.city.value|stringformat:'s' }}"{% endif %}
-                               maxlength="{{ form.city.field.max_length }}"
-                               {% if form.city.field.required %}required{% endif %}
-                        >
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-state">state</label>
-                        <input type="text"
-                               class="form-control form-control-alternative"
-                               name="{{ form.state.name }}"
-                               id="{{ form.state.id_for_label }}"
-                               {% if form.state.value != None %}value="{{ form.state.value|stringformat:'s' }}"{% endif %}
-                               maxlength="{{ form.state.field.max_length }}"
-                               {% if form.state.field.required %}required{% endif %}
-                        >
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-zipcode">Zipcode</label>
-                        <input type="text"
-                               class="form-control form-control-alternative"
-                               name="{{ form.zipcode.name }}"
-                               id="{{ form.zipcode.id_for_label }}"
-                               {% if form.zipcode.value != None %}value="{{ form.zipcode.value|stringformat:'s' }}"{% endif %}
-                               maxlength="{{ form.zipcode.field.max_length }}"
-                               {% if form.zipcode.field.required %}required{% endif %}
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <hr class="my-4" />
-                <!-- Description -->
-                <!-- <h6 class="heading-small text-muted mb-4">About me</h6>
-                <div class="pl-lg-4">
+                <div class="col-lg-6">
                   <div class="form-group">
-                    <label>About Me</label>
-                    <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
-                  </div>
-                </div> -->
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+                    <label class="form-control-label" for="input-first-name">First name</label>
+                    <input type="text" class="form-control form-control-alternative" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}" {% if form.first_name.value != None %}value="{{ form.first_name.value|stringformat:'s' }}"
+                      {% endif %} maxlength="{{ form.first_name.field.max_length }}" {% if form.first_name.field.required %}required{% endif %}>
 
-    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Last name</label>
+                    <input type="text" class="form-control form-control-alternative" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}" {% if form.last_name.value != None %}value="{{ form.last_name.value|stringformat:'s' }}"
+                      {% endif %} maxlength="{{ form.last_name.field.max_length }}" {% if form.last_name.field.required %}required{% endif %}>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-email">Email address</label>
+                    <input type="email" class="form-control form-control-alternative" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" {% if form.email.value != None %}value="{{ form.email.value|stringformat:'s' }}" {% endif %}
+                      maxlength="{{ form.email.field.max_length }}" {% if form.email.field.required %}required{% endif %}>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <hr class="my-4" />
+            <!-- Address -->
+            <h6 class="heading-small text-muted mb-4">Address information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address-1">Address Line 1</label>
+                    <input type="text" class="form-control form-control-alternative" name="{{ form.address_line_1.name }}" id="{{ form.address_line_1.id_for_label }}"
+                      {% if form.address_line_1.value != None %}value="{{ form.address_line_1.value|stringformat:'s' }}" {% endif %} maxlength="{{ form.address_line_1.field.max_length }}"
+                      {% if form.address_line_1.field.required %}required{% endif %}>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address-2">Address Line 2</label>
+                    <input type="text" class="form-control form-control-alternative" name="{{ form.address_line_2.name }}" id="{{ form.address_line_2.id_for_label }}"
+                      {% if form.address_line_2.value != None %}value="{{ form.address_line_2.value|stringformat:'s' }}" {% endif %} maxlength="{{ form.address_line_2.field.max_length }}"
+                      {% if form.address_line_2.field.required %}required{% endif %}>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">City</label>
+                    <input type="text" class="form-control form-control-alternative" name="{{ form.city.name }}" id="{{ form.city.id_for_label }}" {% if form.city.value != None %}value="{{ form.city.value|stringformat:'s' }}" {% endif %}
+                      maxlength="{{ form.city.field.max_length }}" {% if form.city.field.required %}required{% endif %}>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-state">state</label>
+                    <input type="text" class="form-control form-control-alternative" name="{{ form.state.name }}" id="{{ form.state.id_for_label }}" {% if form.state.value != None %}value="{{ form.state.value|stringformat:'s' }}" {% endif %}
+                      maxlength="{{ form.state.field.max_length }}" {% if form.state.field.required %}required{% endif %}>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-zipcode">Zipcode</label>
+                    <input type="text" class="form-control form-control-alternative" name="{{ form.zipcode.name }}" id="{{ form.zipcode.id_for_label }}" {% if form.zipcode.value != None %}value="{{ form.zipcode.value|stringformat:'s' }}" {% endif %}
+                      maxlength="{{ form.zipcode.field.max_length }}" {% if form.zipcode.field.required %}required{% endif %}>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-4" />
+  </form>
+</div>
 
 {% endblock content %}
 

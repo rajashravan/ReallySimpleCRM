@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+from django.db.models.functions import Lower
 
 import os
 
@@ -61,7 +62,7 @@ def contact_edit_view(request, contact_id):
             return HttpResponseRedirect(reverse('contacts:detail', args=(contact.id,)))
     else:
         form = ContactForm(instance=contact)
-    return render(request, 'pages/contact_create.html', {'form': form})
+    return render(request, 'pages/contact_create.html', {'form': form, 'contact':contact})
 
 @login_required(login_url="/login/")
 def postcard_view(request, contact_id):
