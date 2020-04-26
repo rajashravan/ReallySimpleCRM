@@ -10,7 +10,7 @@ Prerequisites:
 
 1. Activate the virtual environment.
 ```
-source rscrm-venv/bin/activate
+source venv/bin/activate
 ```
 
 2. Start the server.
