@@ -1,0 +1,14 @@
+asgiref==3.2.7
+certifi==2020.4.5.1
+chardet==3.0.4
+Django==3.0.5
+et-xmlfile==1.0.1
+idna==2.9
+jdcal==1.4.1
+lob==4.0.1
+openpyxl==3.0.3
+Pillow==7.1.2
+pytz==2019.3
+requests==2.23.0
+sqlparse==0.3.1
+urllib3==1.25.9
