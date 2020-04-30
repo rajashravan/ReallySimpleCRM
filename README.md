@@ -8,17 +8,23 @@ Prerequisites:
 * python3
 * virtualenv
 
-1. Activate the virtual environment.
-```
-source venv/bin/activate
+1. Create and activate your virtual environment.
+```console
+virtualenv your-venv
+source your-venv/bin/activate
 ```
 
-2. Start the server.
+2. Install the requirements
+```console
+pip3 install -r requirements.txt
 ```
+
+3. Start the server.
+```console
 python3 crm/manage.py runserver
 ```
 
-3. Navigate to the provided address.
+4. Navigate to the provided address.
 
 ## Misc
 Front-end design was forked from [Django Dashboard Argon](https://github.com/app-generator/django-dashboard-argon).
