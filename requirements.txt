@@ -7,7 +7,7 @@ idna==2.9
 jdcal==1.4.1
 lob==4.0.1
 openpyxl==3.0.3
-Pillow==7.1.2
+Pillow==9.4.0
 pytz==2019.3
 requests==2.23.0
 sqlparse==0.3.1
