@@ -1,6 +1,8 @@
 # ReallySimpleCRM
 
 a really simple crm.
+<img width="1483" alt="image" src="https://user-images.githubusercontent.com/14843081/221480691-ac9d9a40-9459-4b03-8a59-07c000ff9bbf.png">
+
 
 ## Setup
 
